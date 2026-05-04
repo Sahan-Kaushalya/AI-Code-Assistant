@@ -49,26 +49,10 @@ Powered by [OpenRouter API](https://openrouter.ai) · Free models · No backend 
 
 ## 🖥️ Preview
 
-![CODEMESH Logo](ui/logo.png)
-```
-┌─────────────────────────────────────────────────────────┐
-│  CODEMESH  ●  AI CODE                    [GPT OSS 120B ▾]│
-├──────────┬──────────────────────────────────────────────┤
-│          │                                              │
-│  History │   ┌─ AI Response ─────────────────────────┐ │
-│          │   │ ● PYTHON  24 lines                    │ │
-│  Chat 1  │   │ ┌──────────────────────────────────┐  │ │
-│  Chat 2  │   │ │ def parse_expenses(...):          │  │ │
-│  Chat 3  │   │ │   ...                             │  │ │
-│          │   │ └──────────────────────────────────┘  │ │
-│          │   │  [Preview Design] [Edit] [Copy]        │ │
-│          │   └───────────────────────────────────────┘ │
-│          │                                              │
-│          │  ┌─────────────────────────────────────┐    │
-│          │  │ Message CODEMESH…              🎙️ ▲ │    │
-│          │  └─────────────────────────────────────┘    │
-└──────────┴──────────────────────────────────────────────┘
-```
+<div align="center">
+![CODEMESH Logo](ui/logoname.png)
+</div>
+
 ### Main Interface
 ![CODEMESH Main UI](ui/main-ui.png)
 
