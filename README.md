@@ -5,7 +5,7 @@
 ![CODEMESH Logo](ui/logo.png)
 
 ![Version](https://img.shields.io/badge/version-2.0.0-7c3aed?style=for-the-badge)
-![License](https://img.shields.io/badge/license-MIT-34d399?style=for-the-badge)
+![License](https://img.shields.io/badge/license-Custom%20Attribution%20%26%20Notification-34d399?style=for-the-badge)
 ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
@@ -217,7 +217,7 @@ Contributions are welcome! Feel free to:
 
 ## 📄 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License with Attribution and Notification Requirement. See `LICENSE` for more information.
 
 ---
 
