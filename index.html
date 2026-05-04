@@ -1,0 +1,343 @@
+<!-- /* ═══════════════════════════════════════════════════════════
+   CODEMESH — AI Code Assistant · index.html
+   OpenRouter API · v2.0
+═══════════════════════════════════════════════════════════ */ -->
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CODEMESH</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bg: {
+              primary:   '#090b12',
+              secondary: '#0e1018',
+              tertiary:  '#141720',
+              panel:     '#0c0e17',
+              code:      '#07080f',
+            },
+            accent: {
+              cyan:    '#06b6d4',
+              teal:    '#0891b2',
+              indigo:  '#4f46e5',
+              violet:  '#7c3aed',
+              glow:    '#22d3ee',
+            },
+            border: {
+              subtle:  '#151929',
+              DEFAULT: '#1e2235',
+              bright:  '#2a2f4a',
+            },
+            txt: {
+              primary:   '#dde3f5',
+              secondary: '#8891b8',
+              muted:     '#3d4468',
+              code:      '#cdd5f0',
+            }
+          },
+          fontFamily: {
+            mono:    ['"JetBrains Mono"', '"Fira Code"', 'monospace'],
+            sans:    ['"Syne"', 'system-ui', 'sans-serif'],
+            display: ['"Syne"', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Highlight.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <!-- Marked.js -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- CodeMirror Core -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/shell/shell.min.js"></script>
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/x-icon" href="ui/logo.png">
+</head>
+<body class="bg-bg-primary font-sans text-txt-primary h-screen flex overflow-hidden">
+
+  <!-- ══════════════════════ SIDEBAR ══════════════════════ -->
+  <aside id="sidebar" class="sidebar w-60 flex-shrink-0 flex flex-col">
+
+    <div class="brand-bar p-4 flex items-center gap-3 border-b border-border-subtle">
+      <div class="brand-icon-wrap">
+        <image src="ui/logo.png" alt="CODEMESH Logo" class="w-8 h-8">
+      </div>
+      <div>
+        <div class="font-display font-bold text-sm tracking-widest">CODE<span class="text-accent-cyan">MESH</span></div>
+        <div class="flex items-center gap-1.5 mt-0.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent-cyan status-pulse"></span>
+          <span class="text-[10px] text-txt-muted font-mono tracking-wider">ONLINE</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-3">
+      <button id="newChatBtn" class="new-chat-btn w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-bold tracking-wide">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+        NEW CHAT
+      </button>
+    </div>
+
+    <div class="px-3 pb-3">
+      <div class="search-wrap relative">
+        <svg class="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-txt-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="searchInput" type="text" placeholder="Search chats…" class="w-full pl-7 pr-3 py-1.5 bg-bg-tertiary border border-border-subtle rounded-lg text-xs text-txt-secondary placeholder-txt-muted focus:outline-none focus:border-accent-cyan/40 transition-colors font-mono"/>
+      </div>
+    </div>
+
+    <div class="flex-1 overflow-y-auto px-2 pb-2 scrollbar-thin">
+      <p class="text-[9px] text-txt-muted font-bold uppercase tracking-widest mb-2 px-2 font-mono">History</p>
+      <div id="chatHistory" class="space-y-0.5"></div>
+    </div>
+
+    <div class="p-3 border-t border-border-subtle space-y-1">
+      <button id="apiKeyBtn" class="sidebar-btn w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-txt-secondary">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+        API Key
+        <span id="apiKeyStatus" class="ml-auto w-1.5 h-1.5 rounded-full bg-red-500 transition-colors"></span>
+      </button>
+      <button id="clearHistoryBtn" class="sidebar-btn w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs text-txt-muted hover:text-red-400">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        Clear History
+      </button>
+    </div>
+  </aside>
+
+  <!-- ══════════════════════ MAIN ══════════════════════ -->
+  <main class="flex-1 flex flex-col overflow-hidden min-w-0">
+
+    <!-- Header -->
+    <header class="app-header h-12 flex items-center justify-between px-5 flex-shrink-0 border-b border-border-subtle">
+      <div class="flex items-center gap-3">
+        <button id="sidebarToggle" class="icon-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <span class="text-sm font-bold text-txt-primary tracking-widest font-display">AI CODE</span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <!-- Model Selector -->
+        <div class="relative" id="modelWrap">
+          <button id="modelSelectorBtn" class="model-selector-btn flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold font-mono">
+            <span id="modelDot" class="w-2 h-2 rounded-full transition-colors" style="background:#34d399;box-shadow:0 0 6px #34d39966"></span>
+            <span id="selectedModelLabel">GPT OSS 120B</span>
+            <svg id="modelArrow" class="w-3 h-3 text-txt-muted transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+
+          <div id="modelDropdown" class="model-dd hidden absolute right-0 top-full mt-1 w-72 z-50 rounded-xl overflow-hidden border border-border-DEFAULT">
+            <div class="px-3 py-2 bg-bg-panel border-b border-border-subtle">
+              <p class="text-[9px] text-txt-muted font-bold uppercase tracking-widest font-mono">Select Model</p>
+            </div>
+            <div id="modelList" class="bg-bg-panel p-1.5 space-y-0.5"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Chat -->
+    <div id="chatScroll" class="flex-1 overflow-y-auto scrollbar-thin">
+
+      <!-- Welcome Screen -->
+      <div id="welcomeScreen" class="flex flex-col items-center justify-center min-h-full text-center px-6 py-16">
+        <div class="welcome-halo mb-8">
+          <div class="welcome-logo-ring">
+         <image src="ui/logo.png" alt="CODEMESH Logo" class="welcome-logo w-16 h-16">
+          </div>
+        </div>
+        <h1 class="font-display font-extrabold text-5xl tracking-widest mb-2 welcome-title">
+          CODE<span class="text-accent-cyan">MESH</span>
+        </h1>
+        <p class="text-txt-muted text-xs font-mono tracking-widest mb-3">AI-POWERED CODE ASSISTANT</p>
+        <p class="text-txt-secondary text-sm max-w-md mb-10 leading-relaxed">Write, debug, preview & edit code inline. Get production-ready results in seconds.</p>
+
+        <div class="grid grid-cols-2 gap-2.5 w-full max-w-lg">
+          <button class="suggestion-chip chip-ui" data-text="Build a modern, responsive landing page using HTML, CSS, and JavaScript with a hero, feature grid, CTA, and footer.">
+            <div class="chip-icon-wrap" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-brush-icon lucide-brush"><path d="m11 10 3 3"/><path d="M6.5 21A3.5 3.5 0 1 0 3 17.5a2.62 2.62 0 0 1-.708 1.792A1 1 0 0 0 3 21z"/><path d="M9.969 17.031 21.378 5.624a1 1 0 0 0-3.002-3.002L6.967 14.031"/></svg>
+            </div>
+            <div class="text-left"><p class="chip-title">UI Build</p><p class="chip-sub">Responsive Web Layout</p></div>
+          </button>
+          <button class="suggestion-chip chip-debug" data-text="Review the following Python code, identify all bugs, and provide corrected code with clear explanations.">
+            <div class="chip-icon-wrap" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bug-icon lucide-bug"><path d="M12 20v-9"/><path d="M14 7a4 4 0 0 1 4 4v3a6 6 0 0 1-12 0v-3a4 4 0 0 1 4-4z"/><path d="M14.12 3.88 16 2"/><path d="M21 21a4 4 0 0 0-3.81-4"/><path d="M21 5a4 4 0 0 1-3.55 3.97"/><path d="M22 13h-4"/><path d="M3 21a4 4 0 0 1 3.81-4"/><path d="M3 5a4 4 0 0 0 3.55 3.97"/><path d="M6 13H2"/><path d="m8 2 1.88 1.88"/><path d="M9 7.13V6a3 3 0 1 1 6 0v1.13"/></svg>
+            </div>
+            <div class="text-left"><p class="chip-title">Code Debug</p><p class="chip-sub">Issue Analysis + Fixes</p></div>
+          </button>
+          <button class="suggestion-chip chip-test" data-text="Create comprehensive Jest unit tests for a Node.js REST API endpoint, including success, failure, and edge cases.">
+            <div class="chip-icon-wrap" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flask-conical-icon lucide-flask-conical"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/></svg>
+            </div>
+            <div class="text-left"><p class="chip-title">Test Suite</p><p class="chip-sub">Jest + API Coverage</p></div>
+          </button>
+          <button class="suggestion-chip chip-concept" data-text="Explain async/await in JavaScript with practical examples covering API calls, error handling, and sequential workflows.">
+            <div class="chip-icon-wrap" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            </div>
+            <div class="text-left"><p class="chip-title">Concept Guide</p><p class="chip-sub">Async/Await Explained</p></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Messages injected here -->
+      <div id="messagesArea" class="px-5 py-5 space-y-6 hidden max-w-5xl mx-auto w-full pb-4"></div>
+    </div>
+
+    <!-- Input Zone -->
+    <div class="input-zone border-t border-border-subtle px-5 py-4 flex-shrink-0">
+      <div class="flex flex-wrap gap-1.5 mb-2.5">
+        <button class="quick-chip" data-model="openai/gpt-oss-120b:free">
+          <span class="qc-dot" style="background:#34d399;box-shadow:0 0 5px #34d39966;"></span>GPT OSS 120B
+        </button>
+        <button class="quick-chip" data-model="minimax/minimax-m2.5:free">
+          <span class="qc-dot" style="background:#60a5fa;box-shadow:0 0 5px #60a5fa66;"></span>MiniMax M2.5
+        </button>
+        <button class="quick-chip" data-model="z-ai/glm-4.5-air:free">
+          <span class="qc-dot" style="background:#fbbf24;box-shadow:0 0 5px #fbbf2466;"></span>GLM 4.5 Air
+        </button>
+        <button class="quick-chip" data-model="poolside/laguna-m.1:free">
+          <span class="qc-dot" style="background:#f472b6;box-shadow:0 0 5px #f472b666;"></span>Laguna M.1
+        </button>
+      </div>
+
+      <div class="input-box-wrap">
+        <button class="icon-btn-sm" title="Attach">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+        </button>
+        <textarea id="messageInput" placeholder="Message CODEMESH…  (Shift+Enter = newline)" rows="1"></textarea>
+        <div class="flex items-center gap-1.5 ml-2 flex-shrink-0">
+          <button id="voiceBtn" class="icon-btn-sm" title="Voice input">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          </button>
+          <button id="sendBtn" class="send-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+          </button>
+        </div>
+      </div>
+      <p class="text-center text-[10px] text-txt-muted mt-2 font-mono tracking-wider">CODEMESH · OpenRouter · Verify before production · Developed by Sahan Kaushalya</p>
+    </div>
+  </main>
+
+  <!-- ══════════════════════ PREVIEW MODAL ══════════════════════ -->
+  <div id="previewModal" class="hidden fixed inset-0 z-50 flex flex-col preview-modal-bg">
+    <div class="preview-modal-panel flex flex-col h-full m-4 rounded-2xl overflow-hidden border border-border-bright">
+
+      <!-- Preview Header Bar -->
+      <div class="preview-top-bar flex items-center justify-between px-4 py-3 border-b border-border-DEFAULT flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="flex gap-1.5">
+            <span class="w-3 h-3 rounded-full" style="background:#ff5f57"></span>
+            <span class="w-3 h-3 rounded-full" style="background:#febc2e"></span>
+            <span class="w-3 h-3 rounded-full" style="background:#28c840"></span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span class="text-xs font-bold font-mono tracking-widest text-txt-primary">PREVIEW</span>
+            <span id="previewLangBadge" class="lang-badge">HTML</span>
+          </div>
+          <!-- URL bar -->
+          <div class="url-bar flex items-center gap-1.5 px-3 py-1 rounded-lg bg-bg-tertiary border border-border-subtle">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span class="text-[11px] text-txt-muted font-mono">codemesh://preview</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5">
+          <!-- Viewport toggles -->
+          <div class="flex bg-bg-tertiary border border-border-subtle rounded-lg p-0.5 gap-0.5">
+            <button class="viewport-btn active" data-w="100%" title="Desktop">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </button>
+            <button class="viewport-btn" data-w="768px" title="Tablet">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            </button>
+            <button class="viewport-btn" data-w="390px" title="Mobile">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            </button>
+          </div>
+          <button id="refreshPreview" class="icon-btn" title="Refresh">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+          </button>
+          <button id="openInTab" class="icon-btn" title="Open in new tab">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </button>
+          <button id="closePreview" class="icon-btn" title="Close (Esc)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Preview iframe -->
+      <div class="flex-1 bg-bg-code flex items-start justify-center p-3 overflow-auto" id="previewFrameWrap">
+        <div id="previewFrameBox" class="h-full transition-all duration-300" style="width:100%">
+          <iframe id="previewFrame" class="w-full h-full rounded-xl bg-white border-0" sandbox="allow-scripts allow-same-origin allow-forms allow-modals"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ API KEY MODAL ══════════════════════ -->
+  <div id="apiKeyModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+    <div class="api-modal w-full max-w-md rounded-2xl overflow-hidden border border-border-bright">
+      <div class="px-5 py-4 border-b border-border-DEFAULT flex items-center justify-between bg-bg-panel">
+        <div>
+          <h2 class="font-display font-bold text-txt-primary tracking-widest text-sm">API KEY SETUP</h2>
+          <p class="text-xs text-txt-muted mt-0.5 font-mono">OpenRouter — Free models available</p>
+        </div>
+        <button id="closeApiModal" class="icon-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="p-5 space-y-4 bg-bg-secondary">
+        <div>
+          <label class="block text-[10px] font-bold text-txt-muted mb-2 uppercase tracking-widest font-mono">Your OpenRouter Key</label>
+          <div class="relative">
+            <input type="password" id="apiKeyInput" placeholder="sk-or-v1-…" class="api-input w-full px-4 py-3 rounded-xl text-sm pr-11 font-mono"/>
+            <button id="toggleApiKeyVis" class="absolute right-3 top-1/2 -translate-y-1/2 text-txt-muted hover:text-txt-secondary transition-colors">
+              <svg id="eyeIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+        <a href="https://openrouter.ai/keys" target="_blank" class="flex items-center gap-1.5 text-xs text-accent-cyan hover:underline font-mono">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          openrouter.ai/keys → Get free key
+        </a>
+        <div class="flex gap-2 pt-1">
+          <button id="cancelApiKey" class="flex-1 px-4 py-2.5 rounded-xl border border-border-DEFAULT text-sm text-txt-secondary hover:bg-bg-tertiary transition-all font-mono">Cancel</button>
+          <button id="saveApiKey" class="flex-1 px-4 py-2.5 rounded-xl bg-accent-cyan hover:bg-accent-teal text-bg-primary text-sm font-bold transition-all font-mono tracking-wider">SAVE KEY</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
