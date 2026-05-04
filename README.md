@@ -50,17 +50,19 @@ Powered by [OpenRouter API](https://openrouter.ai) · Free models · No backend 
 ## 🖥️ Preview
 
 <div align="center">
+
 ![CODEMESH Logo](ui/logoname.png)
+
 </div>
 
 ### Main Interface
 ![CODEMESH Main UI](ui/main-ui.png)
 
-### AI Response with Editing
-![AI Reply Message](ui/ai-reply-msg.png)
-
 ### AI Typing State
 ![AI Typing](ui/ai-typing.png)
+
+### AI Response with Editing
+![AI Reply Message](ui/ai-reply-msg.png)
 
 ### Preview Mode
 ![AI Preview](ui/ai-preview.png)
